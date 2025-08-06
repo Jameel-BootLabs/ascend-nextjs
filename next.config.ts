@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    typedRoutes: true,
+    typedRoutes: false, // Disable for now to avoid strict routing issues
   },
   images: {
     domains: ['lh3.googleusercontent.com'], // For Google profile images

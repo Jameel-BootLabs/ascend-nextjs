@@ -16,19 +16,22 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 // User storage table (for NextAuth with Google OAuth)
-export const users = pgTable("users", {
+export const users = pgTable("user", {
   id: varchar("id").primaryKey().notNull(),
+  name: varchar("name"),
   email: varchar("email").unique(),
+  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  image: varchar("image"),
+  // Additional fields for our application
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
-  profileImageUrl: varchar("profile_image_url"),
   role: varchar("role", { enum: ["employee", "admin"] }).default("employee"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Add these tables after the users table
-export const accounts = pgTable("accounts", {
+export const accounts = pgTable("account", {
   userId: varchar("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   type: varchar("type").notNull(),
   provider: varchar("provider").notNull(),
@@ -44,13 +47,13 @@ export const accounts = pgTable("accounts", {
   compoundKey: primaryKey(account.provider, account.providerAccountId),
 }));
 
-export const sessions = pgTable("sessions", {
+export const sessions = pgTable("session", {
   sessionToken: varchar("sessionToken").notNull().primaryKey(),
   userId: varchar("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export const verificationTokens = pgTable("verificationTokens", {
+export const verificationTokens = pgTable("verificationToken", {
   identifier: varchar("identifier").notNull(),
   token: varchar("token").notNull(),
   expires: timestamp("expires", { mode: "date" }).notNull(),
