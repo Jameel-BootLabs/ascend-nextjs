@@ -23,7 +23,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="pt-8">
+        <div className="pt-8 space-y-4">
+          <div className="flex gap-4 justify-center">
+            <a 
+              href="/db-status" 
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
+              Check Database Status
+            </a>
+          </div>
           <p className="text-gray-400 text-sm">
             Run <code className="bg-gray-200 px-2 py-1 rounded text-gray-800">npm run dev</code> to start development
           </p>
